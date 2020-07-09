@@ -15,7 +15,7 @@
                 "type": "file-create",
                 "options": {
                     "file": "LICENSE",
-                    "text": { "url": "https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/LICENSE" }
+                    "text": { "url": "https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/LICENCE" }
                 }
             }
         },
