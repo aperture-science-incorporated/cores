@@ -1,6 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/prototypicalpro/repolinter/master/rulesets/schema.json",
     "axioms": {},
+    "version": 2,
     "rules": {
         "license-file-exists": {
             "level": "error",
