@@ -1,0 +1,26 @@
+name: repolinter-action
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  repolint:
+    name: repolint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout self
+        uses: actions/checkout@v2
+      - name: Checkout action
+        uses: actions/checkout@v2
+        with:
+          repository: newrelic/repolinter-action
+          ref: 'main'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          path: .github/actions/repolinter-action
+      - name: Run repolinter
+        uses: ./.github/actions/repolinter-action
+        with:
+          config-url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-nr1catalog.json
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          output-type: issue
