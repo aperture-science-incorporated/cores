@@ -8,7 +8,7 @@ Useful Links
 ============
 
  * `Code of Conduct <./CODE_OF_CONDUCT.md>`_
- * `License <./LICENSE>`_
+ * `License <./LICENCE>`_
  * `Typo URL <example.com/notapath>`_
  * `New Relic Discuss Topic <https://discuss.newrelic.com/companion-cube>`_
  * `Security Policy <../../security/policy>`_
