@@ -1,28 +1,31 @@
+# NOTE: This file should always be named `repolinter.yml` to allow
+# workflow_dispatch to work properly
 name: Repolinter Action
-on:
-  push:
-    branches:
-      - master
-      - main
-      - trunk
+
+# NOTE: This workflow will ONLY check the default branch!
+# Currently there is no elegant way to specify the default
+# branch in the event filtering, so branches are instead
+# filtered in the "Test Default Branch" step.
+on: [push, workflow_dispatch]
 
 jobs:
   repolint:
-    name: repolint
+    name: Run Repolinter
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout self
-        uses: actions/checkout@v2
-      - name: Checkout action
-        uses: actions/checkout@v2
+      - name: Test Default Branch
+        id: default-branch
+        uses: actions/github-script@v2
         with:
-          repository: newrelic/repolinter-action
-          ref: 'feature/issue-management'
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          path: .github/actions/repolinter-action
-      - name: Run repolinter
-        uses: ./.github/actions/repolinter-action
+          script: |
+            const data = await github.repos.get(context.repo)
+            return data.data && data.data.default_branch === context.ref.split('/').slice(-1)[0]
+      - name: Checkout Self
+        if: ${{ steps.default-branch.outputs.result == 'true' }}
+        uses: actions/checkout@v2
+      - name: Run Repolinter
+        if: ${{ steps.default-branch.outputs.result == 'true' }}
+        uses: newrelic/repolinter-action@v1
         with:
-          config-url: https://raw.githubusercontent.com/aperture-science-incorporated/.github/master/repolinter-newrelic-communityplus.json
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          output-type: issue
+          config_file: test_policy.yaml
+          output_type: issue
